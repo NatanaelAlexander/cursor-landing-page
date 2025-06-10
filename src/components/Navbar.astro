@@ -1,0 +1,61 @@
+---
+const navItems = [
+  { href: '/', text: 'Inicio' },
+  { href: '/servicios', text: 'Servicios' },
+  { href: '/nosotros', text: 'Nosotros' },
+  { href: '/contacto', text: 'Contáctanos' },
+];
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-secondary-900/30 border-b border-primary-500/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex-shrink-0">
+        <a href="/" class="text-2xl font-bold text-primary-400">Nascent</a>
+      </div>
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class="text-gray-300 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+            >
+              {item.text}
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="md:hidden">
+        <button
+          type="button"
+          class="text-gray-300 hover:text-primary-400 focus:outline-none"
+          aria-label="Toggle menu"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu functionality
+  const menuButton = document.querySelector('button[aria-label="Toggle menu"]');
+  const mobileMenu = document.querySelector('.md\\:hidden');
+
+  menuButton?.addEventListener('click', () => {
+    // Add mobile menu implementation here
+  });
+</script> 

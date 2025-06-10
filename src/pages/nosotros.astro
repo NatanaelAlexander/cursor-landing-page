@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<Layout
+  title="Nosotros - Nascent"
+  description="Conoce más sobre Nascent, tu socio en desarrollo de software."
+>
+  <Navbar />
+  <main class="min-h-screen pt-20">
+    <section class="py-20 bg-secondary-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-12 animate-fade-in">
+          Quiénes Somos
+        </h1>
+        <div class="prose prose-invert max-w-none">
+          <p class="text-xl text-gray-300 mb-8 animate-slide-up">
+            En Nascent, somos un equipo apasionado por el desarrollo de software y la innovación tecnológica. 
+            Nuestra misión es ayudar a empresas y emprendedores a alcanzar su máximo potencial a través de 
+            soluciones tecnológicas personalizadas.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <div class="bg-secondary-800 p-6 rounded-lg animate-slide-up">
+              <h3 class="text-xl font-semibold text-primary-400 mb-4">Nuestra Visión</h3>
+              <p class="text-gray-300">
+                Ser líderes en el desarrollo de soluciones tecnológicas innovadoras que transformen 
+                la manera en que las empresas operan y crecen.
+              </p>
+            </div>
+            <div class="bg-secondary-800 p-6 rounded-lg animate-slide-up" style="animation-delay: 200ms">
+              <h3 class="text-xl font-semibold text-primary-400 mb-4">Nuestra Misión</h3>
+              <p class="text-gray-300">
+                Proporcionar soluciones tecnológicas de alta calidad que impulsen el crecimiento y 
+                la eficiencia de nuestros clientes.
+              </p>
+            </div>
+            <div class="bg-secondary-800 p-6 rounded-lg animate-slide-up" style="animation-delay: 400ms">
+              <h3 class="text-xl font-semibold text-primary-400 mb-4">Nuestros Valores</h3>
+              <p class="text-gray-300">
+                Innovación, excelencia, compromiso y trabajo en equipo son los pilares que guían 
+                cada uno de nuestros proyectos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout> 
