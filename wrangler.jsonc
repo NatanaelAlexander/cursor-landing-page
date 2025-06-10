@@ -1,10 +1,5 @@
 {
   "name": "nascent-landing",
   "compatibility_date": "2024-06-10",
-  "pages": {
-    "build": {
-      "command": "npm run build",
-      "output": "dist"
-    }
-  }
+  "pages_build_output_dir": "dist"
 } 
