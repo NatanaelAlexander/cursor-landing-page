@@ -7,4 +7,8 @@ import react from '@astrojs/react';
 export default defineConfig({
   integrations: [tailwind(), react()],
   site: 'https://nascent.dev',
+  output: 'static',
+  build: {
+    inlineStylesheets: 'auto'
+  }
 });

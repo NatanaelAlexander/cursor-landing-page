@@ -1,11 +1,12 @@
 import type { APIRoute } from 'astro';
-import { Resend } from 'resend';
-
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const { name, email, message } = await request.json();
+
+    // Solo importamos Resend cuando se necesita
+    const { Resend } = await import('resend');
+    const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
     const { data, error } = await resend.emails.send({
       from: 'Nascent <contacto@nascent.dev>',
