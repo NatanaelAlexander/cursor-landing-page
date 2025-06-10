@@ -1,38 +1,96 @@
 import type { APIRoute } from 'astro';
 
+export const GET: APIRoute = async () => {
+  return new Response(
+    JSON.stringify({
+      message: 'This endpoint only accepts POST requests for sending contact form submissions.',
+      status: 405
+    }),
+    {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const { name, email, message } = await request.json();
+    const data = await request.json();
+    const { name, email, message } = data;
 
-    // Solo importamos Resend cuando se necesita
-    const { Resend } = await import('resend');
+    if (!name || !email || !message) {
+      return new Response(
+        JSON.stringify({
+          message: 'Missing required fields',
+          status: 400
+        }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+    }
+
+    const Resend = (await import('resend')).Resend;
     const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
-    const { data, error } = await resend.emails.send({
-      from: 'Nascent <contacto@nascent.dev>',
-      to: [import.meta.env.CONTACT_EMAIL],
+    const { data: emailData, error } = await resend.emails.send({
+      from: 'contacto@nascent.dev',
+      to: import.meta.env.CONTACT_EMAIL,
       subject: `Nuevo mensaje de contacto de ${name}`,
-      html: `
-        <h2>Nuevo mensaje de contacto</h2>
-        <p><strong>Nombre:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Mensaje:</strong></p>
-        <p>${message}</p>
+      text: `
+        Nombre: ${name}
+        Email: ${email}
+        Mensaje: ${message}
       `,
+      reply_to: email
     });
 
     if (error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-      });
+      console.error('Error sending email:', error);
+      return new Response(
+        JSON.stringify({
+          message: 'Error sending email',
+          status: 500
+        }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
     }
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({
+        message: 'Email sent successfully',
+        status: 200
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Error interno del servidor' }), {
-      status: 500,
-    });
+    console.error('Error processing request:', error);
+    return new Response(
+      JSON.stringify({
+        message: 'Error processing request',
+        status: 500
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
   }
 }; 
