@@ -1,36 +1,45 @@
 ---
 const navItems = [
   { href: '/', text: 'Inicio' },
-  { href: '/servicios', text: 'Servicios' },
   { href: '/nosotros', text: 'Nosotros' },
-  { href: '/contacto', text: 'Contáctanos' },
+  { href: '#servicios', text: 'Servicios' },
+  { href: '#contacto', text: 'Contacto' }
 ];
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-secondary-900/30 border-b border-primary-500/20">
+<nav class="fixed w-full z-50 bg-gray-900/80 backdrop-blur-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
       <div class="flex-shrink-0">
-        <a href="/" class="text-2xl font-bold text-primary-400">Nascent</a>
+        <a href="/" class="text-2xl font-bold text-white">
+          Nascent
+        </a>
       </div>
+
+      <!-- Desktop menu -->
       <div class="hidden md:block">
         <div class="ml-10 flex items-baseline space-x-4">
           {navItems.map((item) => (
             <a
               href={item.href}
-              class="text-gray-300 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
               {item.text}
             </a>
           ))}
         </div>
       </div>
+
+      <!-- Mobile menu button -->
       <div class="md:hidden">
         <button
           type="button"
-          class="text-gray-300 hover:text-primary-400 focus:outline-none"
-          aria-label="Toggle menu"
+          class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
         >
+          <span class="sr-only">Abrir menú principal</span>
           <svg
             class="h-6 w-6"
             fill="none"
@@ -48,14 +57,52 @@ const navItems = [
       </div>
     </div>
   </div>
+
+  <!-- Mobile menu -->
+  <div class="hidden md:hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors"
+        >
+          {item.text}
+        </a>
+      ))}
+    </div>
+  </div>
 </nav>
 
 <script>
   // Mobile menu functionality
-  const menuButton = document.querySelector('button[aria-label="Toggle menu"]');
-  const mobileMenu = document.querySelector('.md\\:hidden');
+  const mobileMenuButton = document.querySelector('.mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
 
-  menuButton?.addEventListener('click', () => {
-    // Add mobile menu implementation here
-  });
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+      mobileMenuButton.setAttribute('aria-expanded', String(!isExpanded));
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (event) => {
+      const target = event.target as Node;
+      if (mobileMenuButton && mobileMenu && 
+          !mobileMenuButton.contains(target) && 
+          !mobileMenu.contains(target)) {
+        mobileMenu.classList.add('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 </script> 
